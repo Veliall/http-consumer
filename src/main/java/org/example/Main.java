@@ -6,10 +6,12 @@ import org.example.http.framework.resolver.argument.RequestHandlerMethodArgument
 import org.example.http.framework.resolver.argument.RequestHeaderHandlerMethodArgumentResolver;
 import org.example.http.framework.resolver.argument.ResponseHandlerMethodArgumentResolver;
 
+import java.io.IOException;
+
 @Log
 public class Main {
     public static void main(String[] args) {
-        final var server = new Server();
+        final var server = new Server(9999);
         server.autoRegisterHandlers("org.example.http.app");
         server.addArgumentResolver(
                 new RequestHandlerMethodArgumentResolver(),
@@ -20,10 +22,10 @@ public class Main {
       try {
         Thread.sleep(1000);
         server.stop();
-      } catch (InterruptedException e) {
+      } catch (InterruptedException | IOException e) {
         e.printStackTrace();
       }
     }).start();
-        server.listen(9999);
+        server.listen();
     }
 }
